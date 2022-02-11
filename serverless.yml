@@ -1,0 +1,17 @@
+service: cdc-lambda
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  stage: dev
+  region: ap-east-1
+
+functions:
+  app:
+    handler: index.handler
+    events:
+      - http: ANY /
+      - http: 'ANY {proxy+}'
+
+plugins:
+  - serverless-offline

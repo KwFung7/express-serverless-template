@@ -1,0 +1,42 @@
+{
+    "env": {
+        "browser": true,
+        "amd": true,
+        "node": true,
+        "es6": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 2017,
+        "requireConfigFile": false
+    },
+    "ignorePatterns": [
+        "temp.js",
+        "**/i18n/*.js",
+        "**/__tests__/*.js",
+        "**/test/*.js"
+    ],
+    "extends": "eslint:recommended",
+    "rules": {
+        "comma-dangle": 0,
+        "eol-last": 0,
+        "prefer-const": 1,
+        "prefer-object-spread": 1,
+        "no-array-constructor": 1,
+        "no-confusing-arrow": 0,
+        "no-duplicate-imports": 0,
+        "no-extra-boolean-cast": 0,
+        "no-new-object": 1,
+        "no-color-literals": 0,
+        "no-inline-styles": 0,
+        "no-raw-text": 0,
+        "no-var": 1,
+        "no-unused-vars": 1,
+        "no-useless-escape": 1,
+        "prettier/prettier": 0,
+        "quote-props": 0,
+        "quotes": 0,
+        "sort-styles": 0,
+        "semi": [1, "always"]
+    },
+    "parser": "@babel/eslint-parser"
+}

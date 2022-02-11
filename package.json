@@ -1,0 +1,44 @@
+{
+  "name": "cdc-lambda",
+  "version": "1.0.0",
+  "description": "CDC Lambda",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run lint && npm run mocha",
+    "lint": "eslint .",
+    "dev": "nodemon -r dotenv/config index.js dotenv_config_path=./.env.dev",
+    "start": "node -r dotenv/config index.js dotenv_config_path=./.env.prod",
+    "mocha": "mocha test/ --recursive --exit"
+  },
+  "keywords": [],
+  "author": "Felix Kwan",
+  "license": "ISC",
+  "engines": {
+    "node": "16"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1071.0",
+    "axios": "^0.25.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "helmet": "^5.0.2",
+    "http-status-codes": "^2.2.0",
+    "log4js": "^6.4.1",
+    "morgan": "^1.10.0",
+    "serverless-http": "^2.7.0",
+    "swagger-jsdoc": "^6.1.0",
+    "swagger-ui-express": "^4.3.0",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.17.0",
+    "nodemon": "^2.0.15"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "test/*",
+      "output/*"
+    ]
+  }
+}
