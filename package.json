@@ -1,14 +1,19 @@
 {
-  "name": "cdc-lambda",
+  "name": "awesome-lambda",
   "version": "1.0.0",
-  "description": "CDC Lambda",
+  "description": "Awesome Lambda",
   "main": "index.js",
   "scripts": {
     "test": "npm run lint && npm run mocha",
     "lint": "eslint .",
     "dev": "nodemon -r dotenv/config index.js dotenv_config_path=./.env.dev",
+    "prod": "node -r dotenv/config index.js dotenv_config_path=./.env.prod",
     "start": "node -r dotenv/config index.js dotenv_config_path=./.env.prod",
-    "mocha": "mocha test/ --recursive --exit"
+    "mocha": "mocha test/ --recursive --exit",
+    "sls:offline": "serverless offline --stage dev",
+    "sls:dev": "serverless deploy --stage dev",
+    "sls:uat": "serverless deploy --stage uat",
+    "sls:prod": "serverless deploy --stage prod --aws-profile prod-profile"
   },
   "keywords": [],
   "author": "Felix Kwan",
@@ -17,14 +22,18 @@
     "node": "16"
   },
   "dependencies": {
-    "aws-sdk": "^2.1071.0",
+    "amazon-cognito-identity-js": "^5.2.10",
+    "aws-sdk": "^2.1209.0",
     "axios": "^0.25.0",
     "cors": "^2.8.5",
+    "crypto-js": "^4.1.1",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
     "helmet": "^5.0.2",
     "http-status-codes": "^2.2.0",
+    "lodash": "^4.17.21",
     "log4js": "^6.4.1",
+    "moment": "^2.29.4",
     "morgan": "^1.10.0",
     "serverless-http": "^2.7.0",
     "swagger-jsdoc": "^6.1.0",
@@ -32,8 +41,12 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@babel/core": "^7.19.0",
     "@babel/eslint-parser": "^7.17.0",
-    "nodemon": "^2.0.15"
+    "eslint": "^8.23.0",
+    "nodemon": "^2.0.15",
+    "serverless-add-api-key": "^4.2.1",
+    "serverless-dotenv-plugin": "^4.0.2"
   },
   "nodemonConfig": {
     "ignore": [

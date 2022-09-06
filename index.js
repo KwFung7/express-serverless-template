@@ -1,13 +1,11 @@
-// const serverless = require('serverless-http');
+const serverless = require('serverless-http');
 const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
-const helmet = require("helmet");
-const swaggerUi = require('swagger-ui-express');
+const helmet = require('helmet');
 const { v4: uuidv4 } = require('uuid');
 
 const router = require('./src/router');
-const openapiSpecification = require('./swagger');
 
 const app = express();
 
@@ -31,15 +29,20 @@ app.use((req, res, next) => {
 // x-language
 app.use((req, res, next) => {
   if (!req.headers['x-langague']) {
-    req.headers["x-langague"] = process.env.DEFAULT_LANGUAGE || "en_HK";
+    req.headers['x-langague'] = process.env.DEFAULT_LANGUAGE || 'en';
   }
   next();
 });
 
 app.use('/', router);
-app.use('/openapi', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 
-// module.exports.handler = serverless(app);
+// const swaggerUi = require('swagger-ui-express');
+// const openapiSpecification = require('./swagger');
+// app.use('/openapi', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 
-const port = process.env.PORT || '3000';
-app.listen(port, () => console.log(`Listening on port ${port}...`));
+// Lambda serverless setup
+module.exports.handler = serverless(app);
+
+// Standalone NodeJS setup
+// const port = process.env.PORT || '3000';
+// app.listen(port, () => console.log(`Listening on port ${port}...`));

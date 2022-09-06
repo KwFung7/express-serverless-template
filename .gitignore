@@ -18,9 +18,9 @@ tls/
 .env.test.local
 .env.production.local
 .env.dev
+.env.uat
 .env.prod
 yarn.lock*
-package-lock.json*
 
 npm-debug.log*
 yarn-debug.log*
@@ -150,3 +150,6 @@ kvcreds/
 ui/build/
 tree.*
 temp/
+
+# Serverless
+.serverless

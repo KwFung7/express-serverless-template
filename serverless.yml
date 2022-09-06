@@ -1,17 +1,87 @@
-service: cdc-lambda
+service: awesome-lambda
+
+custom:
+  apiKeys:
+    dev:
+      - name: awesome-dev-apikey
+    uat:
+      - name: awesome-uat-apikey
+    prod:
+      - name: awesome-prod-apikey
 
 provider:
   name: aws
-  runtime: nodejs16.x
-  stage: dev
+  ecr:
+    # In this section you can define images that will be built locally and uploaded to ECR
+    images:
+      appimage-dev:
+        path: ./
+      appimage-uat:
+        path: ./
+      appimage-prod:
+        path: ./
+  runtime: nodejs14.x
+  timeout: 30
+  stage: ${opt:stage, 'dev'}
   region: ap-east-1
+  #  vpc:
+  #    securityGroupIds:
+  #      - sg-xxxxxxxx
+  #    subnetIds:
+  #      - subnet-xxxxxxxx
+  #      - subnet-xxxxxxxx
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+            - dynamodb:BatchWriteItem
+            - s3:GetObject
+            - s3:GetObjectAcl
+            - s3:PutObject
+            - s3:PutObjectAcl
+            - sns:Publish
+            - sns:CreatePlatformEndpoint
+            - sns:Subscribe
+            - sns:setEndpointAttributes
+            - ses:SendEmail
+            - ssm:GetParameter
+            - cognito-idp:ListUsers
+            - cognito-idp:SignUp
+            - cognito-idp:ConfirmSignUp
+            - cognito-idp:AdminDeleteUser
+            - cognito-idp:AdminGetUser
+            - events:PutRule
+            - events:PutTargets
+            - events:DeleteRule
+            - events:RemoveTargets
+            - events:ListRules
+            - lambda:AddPermission
+            - lambda:RemovePermission
+            - sqs:SendMessage
+            - ec2:CreateNetworkInterface
+            - ec2:DescribeNetworkInterfaces
+            - ec2:DeleteNetworkInterface
+          Resource: '*'
 
 functions:
   app:
-    handler: index.handler
+    # handler: index.handler
+    image:
+      name: appimage-${self:provider.stage}
+    memorySize: 1024
     events:
-      - http: ANY /
-      - http: 'ANY {proxy+}'
+      - http:
+          path: /status
+          method: get
 
 plugins:
   - serverless-offline
+  - serverless-dotenv-plugin
+  - serverless-add-api-key
