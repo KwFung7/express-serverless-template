@@ -46,7 +46,8 @@
     "eslint": "^8.23.0",
     "nodemon": "^2.0.15",
     "serverless-add-api-key": "^4.2.1",
-    "serverless-dotenv-plugin": "^4.0.2"
+    "serverless-dotenv-plugin": "^4.0.2",
+    "serverless-offline": "^10.0.0"
   },
   "nodemonConfig": {
     "ignore": [
