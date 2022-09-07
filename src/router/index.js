@@ -4,7 +4,7 @@ const { StatusCodes } = require('http-status-codes');
 const router = express.Router();
 
 router.use('/mobile', require('./mobile'));
-router.use('/admin', require('./admin'));
+router.use('/cms', require('./cms'));
 
 /**
  * @openapi

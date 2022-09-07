@@ -1,21 +1,24 @@
 const axios = require('axios');
-const timeout = parseInt(process.env.HTTP_TIMEOUT);
+const https = require('https');
+const { StatusCodes } = require('http-status-codes');
+const logger = require('../logger');
 
 class HttpRequest {
-  // constructor(baseUrl) {
-  //   this.baseURL = baseUrl
-  // }
+
   // get axios config
   getInsideConfig() {
     const config = {
-      baseURL: this.baseURL,
+      baseURL: process.env.CRM_BASE_URL,
       headers: {
         'Content-Type': 'application/json;charset=utf-8',
       },
       // cross-domain
       withCredentials: false, // default
-      timeout,
+      httpsAgent: new https.Agent({
+        rejectUnauthorized: false
+      }),
     };
+    // console.log('axios-baseURL', process.env.CRM_BASE_URL, process.env);
     return config;
   }
 
@@ -23,19 +26,20 @@ class HttpRequest {
   interceptors(instance) {
     // request intercept
     instance.interceptors.request.use(
-      function (config) {
-        console.log(config);
+      function(config) {
+        logger.info(`Request: ${JSON.stringify(config)}`);
         return config;
       },
-      function (error) {
+      function(error) {
         return Promise.reject(error);
       }
     );
 
     // response intercept
     instance.interceptors.response.use(
-      function (response) {
-        if (response.status === 200) {
+      function(response) {
+        logger.info(`Response: ${JSON.stringify(response.data)}`);
+        if (response.status === StatusCodes.OK) {
           return Promise.resolve(response.data);
         } else {
           return Promise.reject(response);
@@ -43,8 +47,8 @@ class HttpRequest {
         // return response;
       },
       function (error) {
-        // errorHandle(error)
-        return Promise.reject(error);
+        const crmMessage = error?.response?.data?.Message;
+        return Promise.reject(crmMessage || error);
       }
     );
   }
@@ -56,25 +60,17 @@ class HttpRequest {
     return instance(newOptions);
   }
 
-  get(url, config = {}) {
+  get(url, config = {}, data = {}) {
     const options = {
       method: 'get',
       url,
       ...config,
+      data
     };
     return this.request(options);
   }
 
-  getV2(url, params, config = {}) {
-    const options = {
-      method: 'get',
-      url,
-      ...config,
-    };
-    return this.request(options);
-  }
-
-  delete(url, data = {} ,config = {}) {
+  delete(url, data = {}, config = {}) {
     const options = {
       method: 'delete',
       url,
@@ -84,23 +80,24 @@ class HttpRequest {
     return this.request(options);
   }
 
-  post(url, data = {}) {
-    // console.log(data)
+  post(url, data = {}, config = {}) {
     return this.request({
       method: 'post',
       url: url,
       data: data,
+      ...config,
     });
   }
 
-  put(url, data = {}) {
+  put(url, data = {}, config = {}) {
     return this.request({
       method: 'put',
       url: url,
       data: data,
+      ...config,
     });
   }
-  
+
 }
 
 module.exports = HttpRequest;

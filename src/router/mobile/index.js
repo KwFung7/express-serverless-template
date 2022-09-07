@@ -1,14 +1,17 @@
 const express = require('express');
-const { StatusCodes } = require('http-status-codes');
+const {StatusCodes} = require("http-status-codes");
 
 const router = express.Router();
 
+// Example
+// router.use('/user', require('./crm/user'));
+
 /**
  * @openapi
- * /admin:
+ * /mobile:
  *   get:
- *     description: Admin related endpoint
- *     tags: [admin]
+ *     description: Mobile related endpoint
+ *     tags: [mobile]
  *     produces:
  *       - application/json
  *     responses:
