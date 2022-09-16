@@ -13,7 +13,7 @@
     "sls:offline": "serverless offline --stage dev",
     "sls:dev": "serverless deploy --stage dev",
     "sls:uat": "serverless deploy --stage uat",
-    "sls:prod": "serverless deploy --stage prod --aws-profile prod-profile"
+    "sls:prod": "serverless deploy --stage prod --aws-profile hysan-prod-profile"
   },
   "keywords": [],
   "author": "Felix Kwan",
