@@ -80,6 +80,36 @@ functions:
       - http:
           path: /status
           method: get
+      - http:
+          path: /cms/cognito/verifytoken
+          method: post
+          private: true
+          cors: true
+      - http:
+          path: /cms/cognito/users
+          method: get
+          private: true
+          cors: true
+      - http:
+          path: /cms/cognito/user
+          method: get
+          private: true
+          cors: true
+      - http:
+          path: /cms/cognito/user
+          method: post
+          private: true
+          cors: true
+      - http:
+          path: /cms/cognito/user
+          method: delete
+          private: true
+          cors: true
+      - http:
+          path: /cms/cognito/confirmsignup
+          method: post
+          private: true
+          cors: true
 
 plugins:
   - serverless-offline
